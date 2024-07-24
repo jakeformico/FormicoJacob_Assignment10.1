@@ -2,7 +2,7 @@ package mediator;
 
 import java.util.Random;
 
-public class ClientActions extends Thread {
+public class ClientRunner extends Thread {
 
     Mediator mediator;
 

@@ -6,7 +6,7 @@ public class Client {
 
     public static void main(String args[]) {
 
-        ClientActions clientToRun = new ClientActions();
+        ClientRunner clientToRun = new ClientRunner();
         
         //starting thread
         clientToRun.start();

@@ -1,6 +1,6 @@
 package mediator;
 
-public enum MessageState {
+public enum MessageType {
     BROADCAST,
     COMMAND,
     MESSAGE,

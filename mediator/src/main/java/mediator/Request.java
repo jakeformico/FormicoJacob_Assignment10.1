@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class Request {
     String message = "Don't do drugs! Or do!";
-    MessageState messageState;
+    MessageType messageState;
     int messageGroupNumber = 1;
     String messageGroupString = "";
     Colleague nextInChain;
@@ -24,7 +24,7 @@ public class Request {
     }
 
     public void randomMessageState() {
-        this.messageState = MessageState.values()[new Random().nextInt(MessageState.values().length)];
+        this.messageState = MessageType.values()[new Random().nextInt(MessageType.values().length)];
     }
 
     public void randomMessageGroupNumber() {
