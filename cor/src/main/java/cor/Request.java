@@ -3,7 +3,7 @@ import java.util.Random;
 
 public class Request {
     String message = "REQUESTING....";
-    MessageState messageState;
+    MessageType messageType;
     int messageGroupNumber = 1;
     String messageGroupString = "";
     Handler nextInChain;
@@ -14,16 +14,16 @@ public class Request {
         return message;
     }
 
-    public String getMessageState() {
-        return this.messageState.toString();
+    public String getMessageType() {
+        return this.messageType.toString();
     }
 
     public int getMessageGroupNumber() {
         return this.messageGroupNumber;
     }
 
-    public void randomMessageState() {
-        this.messageState = MessageState.values()[new Random().nextInt(MessageState.values().length)];
+    public void randomMessageType() {
+        this.messageType = MessageType.values()[new Random().nextInt(MessageType.values().length)];
     }
 
     public void randomMessageGroupNumber() {
@@ -42,11 +42,11 @@ public class Request {
 
     public Request getNewRequest() {
 
-        randomMessageState();
+        randomMessageType();
         randomMessageGroupNumber();
-        if (this.getMessageState().equals("MESSAGE")) {
+        if (this.getMessageType().equals("MESSAGE")) {
             this.messageGroupString = "message group: " + messageGroupNumber;
-        } else if (this.getMessageState().equals("RANDOM")) {
+        } else if (this.getMessageType().equals("RANDOM")) {
             randomObserverNumber = selectRandomObserver();
             randomMessage = "random observer selected: " + randomObserverNumber;
         }

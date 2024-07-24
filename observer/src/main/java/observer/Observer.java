@@ -1,11 +1,11 @@
-// package observer;
+package observer;
 
-// public interface Observer {
+public interface Observer {
 
-//     public void update(Subject broadcaster);
+    public void update(Subject broadcaster);
 
-//     public void start();
+    public void start();
 
-//     public void end();
+    public void end();
 
-// }
+}

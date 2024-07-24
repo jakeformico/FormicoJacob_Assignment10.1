@@ -58,31 +58,31 @@ public class MessageHandler extends Thread implements Handler {
         message = request.getMessage();
         try {
             // Broadcast case
-            if (request.getMessageState().equals("BROADCAST")) {
+            if (request.getMessageType().equals("BROADCAST")) {
                 timeNow = LocalTime.now();
                 myWriter.append("Recieved broadcast: " + message + " in mode: "
-                        + request.getMessageState() + " at time: " + dtf.format(timeNow) + "\n");
+                        + request.getMessageType() + " at time: " + dtf.format(timeNow) + "\n");
                 // Message case
-            } else if (request.getMessageState().equals("MESSAGE")
+            } else if (request.getMessageType().equals("MESSAGE")
                     && request.getMessageGroupNumber() == messageGroup) {
                 timeNow = LocalTime.now();
                 myWriter.append("Recieved message: " + message + " from " + request.toString() + " in mode: "
-                        + request.getMessageState() + " at time: " + dtf.format(timeNow) + "\n");
+                        + request.getMessageType() + " at time: " + dtf.format(timeNow) + "\n");
                 // Command Case
-            } else if (request.getMessageState().equals("COMMAND")) {
+            } else if (request.getMessageType().equals("COMMAND")) {
                 timeNow = LocalTime.now();
                 doACommand();
-            } else if (request.getMessageState().equals("RANDOM")
+            } else if (request.getMessageType().equals("RANDOM")
                     && request.getRandomObserverNumber() == threadNumber) {
                 timeNow = LocalTime.now();
                 myWriter.append("Randomly recieved: " + message + " from " + request.toString() + " in mode: "
-                        + request.getMessageState() + " at time: " + dtf.format(timeNow) + "\n");
+                        + request.getMessageType() + " at time: " + dtf.format(timeNow) + "\n");
                 bypass = true;
             }
             // Pass message
             if (successor != null && bypass != true) {
                 myWriter.append("Pass to: " + successor.getHandlerId() + " in mode: "
-                        + request.getMessageState() + " at: " + dtf.format(timeNow) + "\n");
+                        + request.getMessageType() + " at: " + dtf.format(timeNow) + "\n");
                 successor.handleRequest(request);
             }
         } catch (IOException e) {

@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class Request {
     String message = "Don't do drugs! Or do!";
-    MessageType messageState;
+    MessageType messageType;
     int messageGroupNumber = 1;
     String messageGroupString = "";
     Colleague nextInChain;
@@ -15,16 +15,16 @@ public class Request {
         return message;
     }
 
-    public String getMessageState() {
-        return this.messageState.toString();
+    public String getMessageType() {
+        return this.messageType.toString();
     }
 
     public int getMessageGroupNumber() {
         return this.messageGroupNumber;
     }
 
-    public void randomMessageState() {
-        this.messageState = MessageType.values()[new Random().nextInt(MessageType.values().length)];
+    public void randomMessageType() {
+        this.messageType = MessageType.values()[new Random().nextInt(MessageType.values().length)];
     }
 
     public void randomMessageGroupNumber() {
@@ -43,12 +43,12 @@ public class Request {
 
     public Request getNewRequest() {
 
-        randomMessageState();
+        randomMessageType();
         randomMessageGroupNumber();
         this.randomColleagueNumber = selectRandomObserver();
-        if (this.getMessageState().equals("MESSAGE")) {
+        if (this.getMessageType().equals("MESSAGE")) {
             this.messageGroupString = "message group: " + messageGroupNumber;
-        } else if (this.getMessageState().equals("RANDOM")) {
+        } else if (this.getMessageType().equals("RANDOM")) {
             randomMessage = "random observer selected: " + randomColleagueNumber;
         }
 

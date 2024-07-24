@@ -38,20 +38,20 @@ public class MessageMediator extends Thread implements Mediator {
 
         timeNow = LocalTime.now();
         try {
-            myWriter.append("Recieved request type: " + request.getMessageState() + " from colleague: "
+            myWriter.append("Recieved request type: " + request.getMessageType() + " from colleague: "
                     + colleagueId + " at time: " + dtf.format(timeNow) + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         // Broadcast case
-        if (request.getMessageState().equals("BROADCAST")) {
+        if (request.getMessageType().equals("BROADCAST")) {
             for (int x = 1; x < 11; x++) {
                 colleagues.get(x).handleBroadcast(request, fromColleague);
             }
         }
         // Message case
-        else if (request.getMessageState().equals("MESSAGE")) {
+        else if (request.getMessageType().equals("MESSAGE")) {
             for (int x = 1; x < 11; x++) {
                 if (colleagues.get(x).getColleagueMessageGroup() == request.messageGroupNumber) {
                     colleagues.get(x).handleMessage(request, fromColleague);
@@ -59,13 +59,13 @@ public class MessageMediator extends Thread implements Mediator {
             }
         }
         // Command case
-        else if (request.getMessageState().equals("COMMAND")) {
+        else if (request.getMessageType().equals("COMMAND")) {
             for (int x = 1; x < 11; x++) {
                 colleagues.get(x).doACommand();
             }
         }
         // Single case
-        else if (request.getMessageState().equals("RANDOM")) {
+        else if (request.getMessageType().equals("RANDOM")) {
             colleagues.get(request.randomColleagueNumber).handleRandom(request, fromColleague);
         }
 

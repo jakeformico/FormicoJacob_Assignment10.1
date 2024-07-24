@@ -1,8 +1,8 @@
-// package observer;
+package observer;
 
-// public enum MessageState {
-//     BROADCAST,
-//     COMMAND,
-//     MESSAGE,
-//     RANDOM
-// }
+public enum MessageType {
+    BROADCAST,
+    COMMAND,
+    MESSAGE,
+    RANDOM
+}

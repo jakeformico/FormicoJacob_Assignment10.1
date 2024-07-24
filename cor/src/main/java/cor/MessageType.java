@@ -1,6 +1,6 @@
 package cor;
 
-public enum MessageState {
+public enum MessageType {
     BROADCAST,
     COMMAND,
     MESSAGE,

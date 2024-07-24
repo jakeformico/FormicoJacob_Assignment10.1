@@ -69,7 +69,7 @@ public class MessageColleague extends Thread implements Colleague {
         try {
             timeNow = LocalTime.now();
             myWriter.append("Got message: " + request.getMessage() + " from colleague: " + fromColleague + " in mode: "
-                    + request.getMessageState() + " at time: " + dtf.format(timeNow) + "\n");
+                    + request.getMessageType() + " at time: " + dtf.format(timeNow) + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -109,7 +109,7 @@ public class MessageColleague extends Thread implements Colleague {
         timeNow = LocalTime.now();
         try {
             myWriter.append("Got broadcast: " + request.getMessage() + " from colleague: " + fromColleague
-                    + " in mode: " + request.getMessageState()
+                    + " in mode: " + request.getMessageType()
                     + " at time: " + dtf.format(timeNow) + "\n");
         } catch (IOException e) {
             e.printStackTrace();
@@ -123,7 +123,7 @@ public class MessageColleague extends Thread implements Colleague {
         try {
             myWriter.append("Was selected randomly: " + request.getMessage() + " from colleague: " + fromColleague
                     + " in mode: "
-                    + request.getMessageState() + " at time: " + dtf.format(timeNow) + "\n");
+                    + request.getMessageType() + " at time: " + dtf.format(timeNow) + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
