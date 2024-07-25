@@ -13,13 +13,13 @@ public class ClientRunner extends Thread {
     Handler baseHandler;
 
     public void run() {
-        FileWriter myWriter;
+        FileWriter writer;
         Random r = new Random();
         Handler baseHandler;
-        Handler previousHandler;
-        List<Integer> threadList = new ArrayList<Integer>();
-        Collections.addAll(threadList, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-        int threadNumber;
+        Handler previousHandler;//TODO: UPDATE NAMES---------------------------------------------
+        List<Integer> threadList = new ArrayList<Integer>();//TODO: UPDATE NAMES---------------------------------------------
+        Collections.addAll(threadList, 2, 3, 4, 5, 6, 7, 8, 9, 10);//TODO: UPDATE NAMES---------------------------------------------
+        int threadNumber; //TODO: UPDATE NAMES---------------------------------------------
 
         // Shuffle order of threads to chain
         Collections.shuffle(threadList);
@@ -44,9 +44,9 @@ public class ClientRunner extends Thread {
         try {
             File myObj = new File("chainOrder.txt");
             myObj.createNewFile();
-            myWriter = new FileWriter("chainOrder.txt");
-            myWriter.append("Chain starts with [1] followed by: " + threadList.toString() + "\n");
-            myWriter.close();
+            writer = new FileWriter("chainOrder.txt");
+            writer.append("Chain starts with [1] followed by: " + threadList.toString() + "\n");
+            writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -34,7 +34,7 @@ public class Broadcaster extends Thread implements Subject {
     }
 
     @Override
-    public void Notify() {
+    public void notifyRecievers() {
 
         for (Observer observer : observers) {
             observer.update(this);
@@ -76,7 +76,7 @@ public class Broadcaster extends Thread implements Subject {
             }
 
             setMessage("Don't do drugs! Or do!");
-            Notify();
+            notifyRecievers();
             try {
                 Random r = new Random();
                 sleep(r.nextInt((20000 - 1000) + 1000));
