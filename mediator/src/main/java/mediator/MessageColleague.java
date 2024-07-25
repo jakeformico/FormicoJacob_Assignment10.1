@@ -11,8 +11,8 @@ public class MessageColleague extends Thread implements Colleague {
 
     int threadNumber;
     int messageGroup;
-    FileWriter myWriter;
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+    FileWriter writer;
+    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
     LocalTime timeNow;
     Mediator mediator;
     Random r = new Random();
@@ -22,9 +22,9 @@ public class MessageColleague extends Thread implements Colleague {
         this.messageGroup = messageGroup;
         this.mediator = mediator;
         try {
-            myWriter = new FileWriter("colleague" + threadNumber + ".txt");
+            writer = new FileWriter("colleague" + threadNumber + ".txt");
             timeNow = LocalTime.now();
-            myWriter.append("Colleague" + threadNumber + " started. at time: " + dtf.format(timeNow)
+            writer.append("Colleague" + threadNumber + " started. at time: " + dateFormatter.format(timeNow)
                     + " in message group: " + messageGroup + "\n");
         } catch (IOException e) {
             e.printStackTrace();
@@ -68,8 +68,8 @@ public class MessageColleague extends Thread implements Colleague {
 
         try {
             timeNow = LocalTime.now();
-            myWriter.append("Got message: " + request.getMessage() + " from colleague: " + fromColleague + " in mode: "
-                    + request.getMessageType() + " at time: " + dtf.format(timeNow) + "\n");
+            writer.append("Got message: " + request.getMessage() + " from colleague: " + fromColleague + " in mode: "
+                    + request.getMessageType() + " at time: " + dateFormatter.format(timeNow) + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -78,7 +78,7 @@ public class MessageColleague extends Thread implements Colleague {
     @Override
     public void end() {
         try {
-            myWriter.close();
+            writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NullPointerException e) {
@@ -89,7 +89,7 @@ public class MessageColleague extends Thread implements Colleague {
     public void doACommand() {
         timeNow = LocalTime.now();
         try {
-            myWriter.append("I performed some command at time: " + dtf.format(timeNow) + "\n");
+            writer.append("I performed some command at time: " + dateFormatter.format(timeNow) + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -108,9 +108,9 @@ public class MessageColleague extends Thread implements Colleague {
 
         timeNow = LocalTime.now();
         try {
-            myWriter.append("Got broadcast: " + request.getMessage() + " from colleague: " + fromColleague
+            writer.append("Got broadcast: " + request.getMessage() + " from colleague: " + fromColleague
                     + " in mode: " + request.getMessageType()
-                    + " at time: " + dtf.format(timeNow) + "\n");
+                    + " at time: " + dateFormatter.format(timeNow) + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -121,9 +121,9 @@ public class MessageColleague extends Thread implements Colleague {
 
         timeNow = LocalTime.now();
         try {
-            myWriter.append("Was selected randomly: " + request.getMessage() + " from colleague: " + fromColleague
+            writer.append("Was selected randomly: " + request.getMessage() + " from colleague: " + fromColleague
                     + " in mode: "
-                    + request.getMessageType() + " at time: " + dtf.format(timeNow) + "\n");
+                    + request.getMessageType() + " at time: " + dateFormatter.format(timeNow) + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -10,10 +10,14 @@ public class Receiver extends Thread implements Observer {
 
     String message;
     Broadcaster broadcaster;
-    int threadNumber; // TODO: Maybe change this name----------------------------------------------
+
+    int threadNumber; 
+
     int messageGroup; // TODO: Maybe change this name----------------------------------------------
     FileWriter writer; 
+
     DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+    
     LocalTime timeNow; // TODO: Maybe change this name----------------------------------------------
 
     public Receiver(int threadNumber, int messageGroup) {

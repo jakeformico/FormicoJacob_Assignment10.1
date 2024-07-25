@@ -12,15 +12,15 @@ import java.util.Random;
 public class Broadcaster extends Thread implements Subject {
 
     List<Observer> observers = new ArrayList<Observer>();
-    String message = "Don't do drugs! Or do!";
+    String message = "Here is a message";
     MessageType messageType;
     FileWriter myWriter;
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
-    LocalTime timeNow;
-    int messageGroupNumber = 1;
-    String messageGroupString = "";
-    int randomObserverNumber;
-    String randomMessage = "";
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");//TODO: UPDATE NAMES---------------------------------------------
+    LocalTime timeNow;//TODO: UPDATE NAMES---------------------------------------------
+    int messageGroupNumber = 1;//TODO: UPDATE NAMES---------------------------------------------
+    String messageGroupString = "";//TODO: UPDATE NAMES---------------------------------------------
+    int randomObserverNumber;//TODO: UPDATE NAMES---------------------------------------------
+    String randomMessage = "";//TODO: UPDATE NAMES---------------------------------------------
 
     @Override
     public void attach(Observer newObserver) {
@@ -46,7 +46,7 @@ public class Broadcaster extends Thread implements Subject {
     public void run() {
 
         try {
-            File myObj = new File("subject.txt");
+            File myObj = new File("subject.txt");//TODO: UPDATE --------------------------------------------------------
             myObj.createNewFile();
             myWriter = new FileWriter("subject.txt");
             timeNow = LocalTime.now();
@@ -57,8 +57,8 @@ public class Broadcaster extends Thread implements Subject {
 
         while (true) {
 
-            randomMessageType();
-            randomMessageGroupNumber();
+            randomMessageType();//TODO: UPDATE NAMES---------------------------------------------
+            randomMessageGroupNumber();//TODO: UPDATE NAMES---------------------------------------------
             if (this.getMessageType().equals("MESSAGE")) {
                 this.messageGroupString = "message group: " + messageGroupNumber;
             } else if (this.getMessageType().equals("RANDOM")) {
