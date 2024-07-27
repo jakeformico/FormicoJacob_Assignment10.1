@@ -6,21 +6,22 @@ public class Client {
 
     public static void main(String args[]) {
 
-        ClientRunner clientToRun = new ClientRunner();
+        ClientRunner runner = new ClientRunner();
         
-        //starting thread
-        clientToRun.start();
+        // Start thread
+        runner.start();
 
-        // Run for a minute
+        
         try {
+            // Run for 60 seconds
             TimeUnit.SECONDS.sleep(60);
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        clientToRun.end();
-        System.out.println("ENDED!");
-
+        runner.end();
+        System.out.println("done");
         System.exit(0);
 
     }

@@ -7,9 +7,7 @@ public interface Subject {
 
     public void notifyRecievers();
     
-    
-    //TODO: VERIFY NAMES----------------------------
-    public void start(); //TODO: VERIFY NAMES----------------------------
+    public void start();
 
     public String getMessage();
 
@@ -20,6 +18,6 @@ public interface Subject {
     public int getMessageGroupNumber();
 
     public int getRandomObserverNumber();
-    //TODO: VERIFY NAMES----------------------------
+
 
 }

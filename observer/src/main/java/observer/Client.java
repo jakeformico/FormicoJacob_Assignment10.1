@@ -11,7 +11,7 @@ class Client {
 
         Random r = new Random();
 
-        for (int x = 0; x < 10; x++) { // TODO: VERIFY THE ITERATION COUNT IS CORRECT
+        for (int x = 0; x < 10; x++) {
             
             Observer receiver = new Receiver(x + 1, r.nextInt((3 - 1) + 1) + 1);
 
@@ -20,18 +20,20 @@ class Client {
         }
 
 
+        // Start thread
         broadcaster.start();
 
     
         try {
+            // Run for 60 seconds
             TimeUnit.SECONDS.sleep(60);
+            
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
         broadcaster.end();
-        //System.out.println("ENDED!");
-
+        System.out.println("done");
         System.exit(0);
 
     }

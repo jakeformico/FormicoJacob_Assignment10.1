@@ -15,16 +15,19 @@ public class ClientRunner extends Thread {
     public void run() {
         FileWriter writer;
         Random r = new Random();
-        Handler baseHandler;
-        Handler previousHandler;//TODO: UPDATE NAMES---------------------------------------------
-        List<Integer> threadList = new ArrayList<Integer>();//TODO: UPDATE NAMES---------------------------------------------
-        Collections.addAll(threadList, 2, 3, 4, 5, 6, 7, 8, 9, 10);//TODO: UPDATE NAMES---------------------------------------------
-        int threadNumber; //TODO: UPDATE NAMES---------------------------------------------
 
-        // Shuffle order of threads to chain
+        Handler baseHandler;
+        Handler previousHandler;
+
+        int threadNumber;
+        List<Integer> threadList = new ArrayList<Integer>();
+        Collections.addAll(threadList, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        
+
+        // Shuffle order of threads
         Collections.shuffle(threadList);
 
-        // Start first handler in chain
+        // Starting the first handler
         baseHandler = new MessageHandler(1, r.nextInt((3 - 1) + 1) + 1);
         this.baseHandler = baseHandler;
         previousHandler = baseHandler;
@@ -35,15 +38,15 @@ public class ClientRunner extends Thread {
             threadNumber = threadList.get(x);
 
             Handler handler = new MessageHandler(threadNumber, r.nextInt((3 - 1) + 1) + 1);
-            previousHandler.addSuccessor(handler);
+            previousHandler.addNextHandler(handler);
             previousHandler.start();
             previousHandler = handler;
         }
 
         // Print chain order to a file
         try {
-            File myObj = new File("chainOrder.txt");
-            myObj.createNewFile();
+            File chainOrderFile = new File("chainOrder.txt");
+            chainOrderFile.createNewFile();
             writer = new FileWriter("chainOrder.txt");
             writer.append("Chain starts with [1] followed by: " + threadList.toString() + "\n");
             writer.close();
@@ -51,7 +54,7 @@ public class ClientRunner extends Thread {
             e.printStackTrace();
         }
 
-        // Wait 2 seconds so all threads can properly start
+        // Waiting 2 seconds for all threads to start
         try {
             TimeUnit.SECONDS.sleep(2);
         } catch (InterruptedException e) {

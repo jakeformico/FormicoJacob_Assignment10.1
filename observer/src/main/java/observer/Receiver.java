@@ -13,20 +13,20 @@ public class Receiver extends Thread implements Observer {
 
     int threadNumber; 
 
-    int messageGroup; // TODO: Maybe change this name----------------------------------------------
+    int messageGroup;
     FileWriter writer; 
 
     DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
     
-    LocalTime timeNow; // TODO: Maybe change this name----------------------------------------------
+    LocalTime currentTime;
 
     public Receiver(int threadNumber, int messageGroup) {
         this.threadNumber = threadNumber;
         this.messageGroup = messageGroup;
         try {
-            writer = new FileWriter("observer" + threadNumber + ".txt");
-            timeNow = LocalTime.now();
-            writer.append("Observer" + threadNumber + " started. at time: " + dateFormatter.format(timeNow)
+            writer = new FileWriter("jf_observer-" + threadNumber + ".txt");
+            currentTime = LocalTime.now();
+            writer.append("Observer" + threadNumber + " started. at time: " + dateFormatter.format(currentTime)
                     + " in message group: " + messageGroup + "\n");
         } catch (IOException e) {
             e.printStackTrace();
@@ -43,7 +43,7 @@ public class Receiver extends Thread implements Observer {
             e.printStackTrace();
         }
 
-        while (true) {// TODO: What is this?----------------------------------------------
+        while (true) {
 
         }
 
@@ -53,24 +53,24 @@ public class Receiver extends Thread implements Observer {
     public void update(Subject broadcaster) {
 
         message = broadcaster.getMessage();
-        try {// TODO: UPDATE CONDITIONAL ORDER BASED ON ENUM ORDER----------------------------------------------
+        try {
 
             if (broadcaster.getMessageType().equals("BROADCAST")) {
-                timeNow = LocalTime.now();
+                currentTime = LocalTime.now();
                 writer.append("Recieved broadcast: " + message + " from " + broadcaster.toString() + " in mode: "
-                        + broadcaster.getMessageType() + " at time: " + dateFormatter.format(timeNow) + "\n");
+                        + broadcaster.getMessageType() + " at time: " + dateFormatter.format(currentTime) + "\n");
             } else if (broadcaster.getMessageType().equals("MESSAGE")
                     && broadcaster.getMessageGroupNumber() == messageGroup) {
-                timeNow = LocalTime.now();
+                currentTime = LocalTime.now();
                 writer.append("Recieved message: " + message + " from " + broadcaster.toString() + " in mode: "
-                        + broadcaster.getMessageType() + " at time: " + dateFormatter.format(timeNow) + "\n");
+                        + broadcaster.getMessageType() + " at time: " + dateFormatter.format(currentTime) + "\n");
             } else if (broadcaster.getMessageType().equals("COMMAND")) {
-                doACommand();
+                executeCommand();
             } else if (broadcaster.getMessageType().equals("RANDOM")
                     && broadcaster.getRandomObserverNumber() == threadNumber) {
-                timeNow = LocalTime.now();
+                currentTime = LocalTime.now();
                 writer.append("Was selected randomly: " + message + " from " + broadcaster.toString() + " in mode: "
-                        + broadcaster.getMessageType() + " at time: " + dateFormatter.format(timeNow) + "\n");
+                        + broadcaster.getMessageType() + " at time: " + dateFormatter.format(currentTime) + "\n");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -85,11 +85,11 @@ public class Receiver extends Thread implements Observer {
             e.printStackTrace();
         }
     }
-    // TODO: UPDATE THIS METHOD CHANGE IT UP----------------------------------------------
-    public void doACommand() { // TODO: MAKE UPDATES TO OTHER CLASSES AS WELL----------------------------------------------
-        timeNow = LocalTime.now();
+
+    public void executeCommand() { 
+        currentTime = LocalTime.now();
         try {
-            writer.append("I performed some command at time: " + dateFormatter.format(timeNow) + "\n");// TODO: UPDATE THIS METHOD CHANGE IT UP----------------------------------------------
+            writer.append("D command xyz... : " + dateFormatter.format(currentTime) + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -13,7 +13,7 @@ public class MessageColleague extends Thread implements Colleague {
     int messageGroup;
     FileWriter writer;
     DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-    LocalTime timeNow;
+    LocalTime currentTime;
     Mediator mediator;
     Random r = new Random();
 
@@ -22,9 +22,9 @@ public class MessageColleague extends Thread implements Colleague {
         this.messageGroup = messageGroup;
         this.mediator = mediator;
         try {
-            writer = new FileWriter("colleague" + threadNumber + ".txt");
-            timeNow = LocalTime.now();
-            writer.append("Colleague" + threadNumber + " started. at time: " + dateFormatter.format(timeNow)
+            writer = new FileWriter("jf_colleague-" + threadNumber + ".txt");
+            currentTime = LocalTime.now();
+            writer.append("Colleague" + threadNumber + " started. at time: " + dateFormatter.format(currentTime)
                     + " in message group: " + messageGroup + "\n");
         } catch (IOException e) {
             e.printStackTrace();
@@ -35,7 +35,7 @@ public class MessageColleague extends Thread implements Colleague {
     public void run() {
 
         try {
-            File myObj = new File("colleague" + threadNumber + ".txt");
+            File myObj = new File("jf_colleague-" + threadNumber + ".txt");
             myObj.createNewFile();
         } catch (IOException e) {
             e.printStackTrace();
@@ -64,12 +64,12 @@ public class MessageColleague extends Thread implements Colleague {
     }
 
     @Override
-    public void handleMessage(Request request, int fromColleague) {
+    public void handleMessage(Request request, int sourceColleague) {
 
         try {
-            timeNow = LocalTime.now();
-            writer.append("Got message: " + request.getMessage() + " from colleague: " + fromColleague + " in mode: "
-                    + request.getMessageType() + " at time: " + dateFormatter.format(timeNow) + "\n");
+            currentTime = LocalTime.now();
+            writer.append("Recieved message: " + request.getMessage() + " from colleague: " + sourceColleague + " in mode: "
+                    + request.getMessageType() + " at time: " + dateFormatter.format(currentTime) + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -86,10 +86,10 @@ public class MessageColleague extends Thread implements Colleague {
         }
     }
 
-    public void doACommand() {
-        timeNow = LocalTime.now();
+    public void executeCommand() {
+        currentTime = LocalTime.now();
         try {
-            writer.append("I performed some command at time: " + dateFormatter.format(timeNow) + "\n");
+            writer.append("Do command xyz... : " + dateFormatter.format(currentTime) + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -104,26 +104,26 @@ public class MessageColleague extends Thread implements Colleague {
     }
 
     @Override
-    public void handleBroadcast(Request request, int fromColleague) {
+    public void handleBroadcast(Request request, int sourceColleague) {
 
-        timeNow = LocalTime.now();
+        currentTime = LocalTime.now();
         try {
-            writer.append("Got broadcast: " + request.getMessage() + " from colleague: " + fromColleague
+            writer.append("Recieved broadcast: " + request.getMessage() + " from colleague: " + sourceColleague
                     + " in mode: " + request.getMessageType()
-                    + " at time: " + dateFormatter.format(timeNow) + "\n");
+                    + " at time: " + dateFormatter.format(currentTime) + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void handleRandom(Request request, int fromColleague) {
+    public void handleRandom(Request request, int sourceColleague) {
 
-        timeNow = LocalTime.now();
+        currentTime = LocalTime.now();
         try {
-            writer.append("Was selected randomly: " + request.getMessage() + " from colleague: " + fromColleague
+            writer.append("Was selected randomly: " + request.getMessage() + " from colleague: " + sourceColleague
                     + " in mode: "
-                    + request.getMessageType() + " at time: " + dateFormatter.format(timeNow) + "\n");
+                    + request.getMessageType() + " at time: " + dateFormatter.format(currentTime) + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }

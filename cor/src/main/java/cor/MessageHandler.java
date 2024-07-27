@@ -12,18 +12,18 @@ public class MessageHandler extends Thread implements Handler {
     int threadNumber;
     int messageGroup;
     FileWriter myWriter;
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
-    LocalTime timeNow;
-    Handler successor;
+    DateTimeFormatter dateformat = DateTimeFormatter.ofPattern("HH:mm:ss");
+    LocalTime currentTime;
+    Handler nexthandler;
 
     public MessageHandler(int threadNumber, int messageGroup) {
         this.threadNumber = threadNumber;
         this.messageGroup = messageGroup;
         try {
-            myWriter = new FileWriter("handler" + threadNumber + ".txt");
-            timeNow = LocalTime.now();
-            myWriter.append("Handler" + threadNumber + " at " + dtf.format(timeNow)
-                    + " in message group: " + messageGroup + "\n"); // TODO: THIS IS FOR THE FILE HEADER MAYBE UPDATE
+            myWriter = new FileWriter("jf_handler-" + threadNumber + ".txt");
+            currentTime = LocalTime.now();
+            myWriter.append("Handler " + threadNumber + " at " + dateformat.format(currentTime)
+                    + " in group: " + messageGroup + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -33,8 +33,8 @@ public class MessageHandler extends Thread implements Handler {
     public void run() {
 
         try {
-            File myObj = new File("handler" + threadNumber + ".txt");
-            myObj.createNewFile();
+            File handlerFile = new File("jf_handler-" + threadNumber + ".txt");
+            handlerFile.createNewFile();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -46,8 +46,8 @@ public class MessageHandler extends Thread implements Handler {
     }
 
     @Override
-    public void addSuccessor(Handler successor) {
-        this.successor = successor;
+    public void addNextHandler(Handler nexthandler) {
+        this.nexthandler = nexthandler;
     }
 
     @Override
@@ -59,31 +59,31 @@ public class MessageHandler extends Thread implements Handler {
         try {
             // Broadcast case
             if (request.getMessageType().equals("BROADCAST")) {
-                timeNow = LocalTime.now();
+                currentTime = LocalTime.now();
                 myWriter.append("Recieved broadcast: " + message + " in mode: "
-                        + request.getMessageType() + " at time: " + dtf.format(timeNow) + "\n");
+                        + request.getMessageType() + " at time: " + dateformat.format(currentTime) + "\n");
                 // Message case
             } else if (request.getMessageType().equals("MESSAGE")
                     && request.getMessageGroupNumber() == messageGroup) {
-                timeNow = LocalTime.now();
+                currentTime = LocalTime.now();
                 myWriter.append("Recieved message: " + message + " from " + request.toString() + " in mode: "
-                        + request.getMessageType() + " at time: " + dtf.format(timeNow) + "\n");
+                        + request.getMessageType() + " at time: " + dateformat.format(currentTime) + "\n");
                 // Command Case
             } else if (request.getMessageType().equals("COMMAND")) {
-                timeNow = LocalTime.now();
-                doACommand();
+                currentTime = LocalTime.now();
+                executeCommand();
             } else if (request.getMessageType().equals("RANDOM")
                     && request.getRandomObserverNumber() == threadNumber) {
-                timeNow = LocalTime.now();
+                currentTime = LocalTime.now();
                 myWriter.append("Randomly recieved: " + message + " from " + request.toString() + " in mode: "
-                        + request.getMessageType() + " at time: " + dtf.format(timeNow) + "\n");
+                        + request.getMessageType() + " at time: " + dateformat.format(currentTime) + "\n");
                 bypass = true;
             }
             // Pass message
-            if (successor != null && bypass != true) {
-                myWriter.append("Pass to: " + successor.getHandlerId() + " in mode: "
-                        + request.getMessageType() + " at: " + dtf.format(timeNow) + "\n");
-                successor.handleRequest(request);
+            if (nexthandler != null && bypass != true) {
+                myWriter.append("Pass to: " + nexthandler.getHandlerId() + " in mode: "
+                        + request.getMessageType() + " at: " + dateformat.format(currentTime) + "\n");
+                nexthandler.handleRequest(request);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -94,8 +94,8 @@ public class MessageHandler extends Thread implements Handler {
     public void end() {
         try {
             myWriter.close();
-            if (successor != null) {
-                successor.end();
+            if (nexthandler != null) {
+                nexthandler.end();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -104,10 +104,10 @@ public class MessageHandler extends Thread implements Handler {
         }
     }
 
-    public void doACommand() {
-        timeNow = LocalTime.now();
+    public void executeCommand() {
+        currentTime = LocalTime.now();
         try {
-            myWriter.append("I performed some command at time: " + dtf.format(timeNow) + "\n");
+            myWriter.append("Do command xyz.. : " + dateformat.format(currentTime) + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }

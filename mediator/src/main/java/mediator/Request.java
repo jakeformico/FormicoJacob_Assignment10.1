@@ -3,7 +3,7 @@ package mediator;
 import java.util.Random;
 
 public class Request {
-    String message = "Don't do drugs! Or do!";
+    String message = "REQUESTING....";
     MessageType messageType;
     int messageGroupNumber = 1;
     String messageGroupString = "";

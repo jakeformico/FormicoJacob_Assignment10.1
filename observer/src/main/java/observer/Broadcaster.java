@@ -15,12 +15,12 @@ public class Broadcaster extends Thread implements Subject {
     String message = "Here is a message";
     MessageType messageType;
     FileWriter myWriter;
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");//TODO: UPDATE NAMES---------------------------------------------
-    LocalTime timeNow;//TODO: UPDATE NAMES---------------------------------------------
-    int messageGroupNumber = 1;//TODO: UPDATE NAMES---------------------------------------------
-    String messageGroupString = "";//TODO: UPDATE NAMES---------------------------------------------
-    int randomObserverNumber;//TODO: UPDATE NAMES---------------------------------------------
-    String randomMessage = "";//TODO: UPDATE NAMES---------------------------------------------
+    DateTimeFormatter dateformat = DateTimeFormatter.ofPattern("HH:mm:ss");
+    LocalTime currentTime;
+    int messageGroupNumber = 1;
+    String messageGroupString = "";
+    int randomObserverNumber;
+    String randomMessage = "";
 
     @Override
     public void attach(Observer newObserver) {
@@ -46,19 +46,19 @@ public class Broadcaster extends Thread implements Subject {
     public void run() {
 
         try {
-            File myObj = new File("subject.txt");//TODO: UPDATE --------------------------------------------------------
+            File myObj = new File("jf_subject.txt");//TODO: UPDATE --------------------------------------------------------
             myObj.createNewFile();
-            myWriter = new FileWriter("subject.txt");
-            timeNow = LocalTime.now();
-            myWriter.append("Broadcaster started. at time: " + dtf.format(timeNow) + "\n");
+            myWriter = new FileWriter("jf_subject.txt");
+            currentTime = LocalTime.now();
+            myWriter.append("Broadcaster started. time: " + dateformat.format(currentTime) + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         while (true) {
 
-            randomMessageType();//TODO: UPDATE NAMES---------------------------------------------
-            randomMessageGroupNumber();//TODO: UPDATE NAMES---------------------------------------------
+            randomMessageType();
+            randomMessageGroupNumber();
             if (this.getMessageType().equals("MESSAGE")) {
                 this.messageGroupString = "message group: " + messageGroupNumber;
             } else if (this.getMessageType().equals("RANDOM")) {
@@ -66,16 +66,16 @@ public class Broadcaster extends Thread implements Subject {
                 randomMessage = "random observer selected: " + randomObserverNumber;
             }
             try {
-                timeNow = LocalTime.now();
+                currentTime = LocalTime.now();
                 myWriter.append("Broadcaster sent message: " + message + " in type: " + messageType + " at time: "
-                        + dtf.format(timeNow) + " " + messageGroupString + randomMessage + "\n");
+                        + dateformat.format(currentTime) + " " + messageGroupString + randomMessage + "\n");
                 messageGroupString = "";
                 randomMessage = "";
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-            setMessage("Don't do drugs! Or do!");
+            setMessage("Here is a message..");
             notifyRecievers();
             try {
                 Random r = new Random();

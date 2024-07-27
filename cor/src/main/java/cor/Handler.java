@@ -4,9 +4,9 @@ public interface Handler {
 
     public void handleRequest(Request request); 
 
-    public void addSuccessor(Handler successor);
+    public void addNextHandler(Handler nextHandler);
 
-    public int getHandlerId(); // Update method name ? TBD
+    public int getHandlerId();
 
     public void start();
 

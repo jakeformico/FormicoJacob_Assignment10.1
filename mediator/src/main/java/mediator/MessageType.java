@@ -1,8 +1,8 @@
 package mediator;
 
 public enum MessageType {
-    BROADCAST,
     COMMAND,
     MESSAGE,
+    BROADCAST,
     RANDOM
 }

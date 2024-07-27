@@ -9,8 +9,8 @@ import java.util.HashMap;
 public class MessageMediator extends Thread implements Mediator {
 
     FileWriter myWriter;
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
-    LocalTime timeNow;
+    DateTimeFormatter dateformat = DateTimeFormatter.ofPattern("HH:mm:ss");
+    LocalTime currentTime;
 
     HashMap<Integer, Colleague> colleagues = new HashMap<Integer, Colleague>();
 
@@ -18,8 +18,8 @@ public class MessageMediator extends Thread implements Mediator {
 
         try {
             myWriter = new FileWriter("mediator.txt");
-            timeNow = LocalTime.now();
-            myWriter.append("Mediator started. at time: " + dtf.format(timeNow) + "\n");
+            currentTime = LocalTime.now();
+            myWriter.append("Mediator started. at time: " + dateformat.format(currentTime) + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -34,12 +34,12 @@ public class MessageMediator extends Thread implements Mediator {
     @Override
     public synchronized void passRequest(Request request, int colleagueId) {
 
-        int fromColleague = colleagueId;
+        int sourceColleague = colleagueId;
 
-        timeNow = LocalTime.now();
+        currentTime = LocalTime.now();
         try {
             myWriter.append("Recieved request type: " + request.getMessageType() + " from colleague: "
-                    + colleagueId + " at time: " + dtf.format(timeNow) + "\n");
+                    + colleagueId + " at time: " + dateformat.format(currentTime) + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -47,26 +47,26 @@ public class MessageMediator extends Thread implements Mediator {
         // Broadcast case
         if (request.getMessageType().equals("BROADCAST")) {
             for (int x = 1; x < 11; x++) {
-                colleagues.get(x).handleBroadcast(request, fromColleague);
+                colleagues.get(x).handleBroadcast(request, sourceColleague);
             }
         }
         // Message case
         else if (request.getMessageType().equals("MESSAGE")) {
             for (int x = 1; x < 11; x++) {
                 if (colleagues.get(x).getColleagueMessageGroup() == request.messageGroupNumber) {
-                    colleagues.get(x).handleMessage(request, fromColleague);
+                    colleagues.get(x).handleMessage(request, sourceColleague);
                 }
             }
         }
         // Command case
         else if (request.getMessageType().equals("COMMAND")) {
             for (int x = 1; x < 11; x++) {
-                colleagues.get(x).doACommand();
+                colleagues.get(x).executeCommand();
             }
         }
         // Single case
         else if (request.getMessageType().equals("RANDOM")) {
-            colleagues.get(request.randomColleagueNumber).handleRandom(request, fromColleague);
+            colleagues.get(request.randomColleagueNumber).handleRandom(request, sourceColleague);
         }
 
     }
